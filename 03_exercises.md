@@ -16,42 +16,8 @@ output:
 
 ```r
 library(tidyverse)     # for graphing and data cleaning
-```
-
-```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
-```
-
-```
-## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0
-```
-
-```
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(gardenR)       # for Lisa's garden data
 library(lubridate)     # for date manipulation
-```
-
-```
-## 
-## Attaching package: 'lubridate'
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     date, intersect, setdiff, union
-```
-
-```r
 library(ggthemes)      # for even more plotting themes
 library(geofacet)      # for special faceting with US map layout
 theme_set(theme_minimal())       # My favorite ggplot() theme :)
@@ -70,19 +36,6 @@ data("garden_planting")
 
 # Tidy Tuesday data
 kids <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-15/kids.csv')
-```
-
-```
-## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   state = col_character(),
-##   variable = col_character(),
-##   year = col_double(),
-##   raw = col_double(),
-##   inf_adj = col_double(),
-##   inf_adj_perchild = col_double()
-## )
 ```
 
 ## Setting up on GitHub!
@@ -131,10 +84,6 @@ garden_harvest %>%
   pivot_wider(id_cols = vegetable:total_weight,
               names_from = "day",
               values_from = "total_weight")
-```
-
-```
-## `summarise()` has grouped output by 'vegetable'. You can override using the `.groups` argument.
 ```
 
 <div data-pagedtable="false">
@@ -246,18 +195,6 @@ data_site <-
   "https://www.macalester.edu/~dshuman1/data/112/2014-Q4-Trips-History-Data.rds" 
 Trips <- readRDS(gzcon(url(data_site)))
 Stations<-read_csv("http://www.macalester.edu/~dshuman1/data/112/DC-Stations.csv")
-```
-
-```
-## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   name = col_character(),
-##   lat = col_double(),
-##   long = col_double(),
-##   nbBikes = col_double(),
-##   nbEmptyDocks = col_double()
-## )
 ```
 
 **NOTE:** The `Trips` data table is a random subset of 10,000 trips from the full quarterly data. Start with this small data table to develop your analysis commands. **When you have this working well, you should access the full data set of more than 600,000 events by removing `-Small` from the name of the `data_site`.**
@@ -467,10 +404,6 @@ Trips_Station %>%
   scale_color_viridis_c()
 ```
 
-```
-## Warning: Removed 12 rows containing missing values (geom_point).
-```
-
 ![](03_exercises_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
   
   16. Only 14.4% of the trips in our data are carried out by casual users. Create a plot that shows which area(s) have stations with a much higher percentage of departures by casual users. What patterns do you notice? (Again, we'll improve this next week when we learn about maps).
@@ -493,14 +426,6 @@ left_join(Stations, by = "name") %>%
   scale_color_viridis_c()
 ```
 
-```
-## `summarise()` has grouped output by 'name'. You can override using the `.groups` argument.
-```
-
-```
-## Warning: Removed 12 rows containing missing values (geom_point).
-```
-
 ![](03_exercises_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
   
   The casual users have higher percentages of bicycle usage in the stations that are further out. They have lower percentages in the stations that are clustered together in the upper left of the plot.
@@ -517,13 +442,7 @@ top_ten_station_data <- Trips %>%
   summarise(num_departures = n()) %>% 
   arrange(desc(num_departures)) %>% 
   head(10)
-```
 
-```
-## `summarise()` has grouped output by 'sstation'. You can override using the `.groups` argument.
-```
-
-```r
 top_ten_station_data
 ```
 
@@ -566,11 +485,6 @@ Trips %>%
   pivot_wider(id_cols = client:prop,
               names_from = "client",
               values_from = "prop")
-```
-
-```
-## `summarise()` has grouped output by 'client'. You can override using the `.groups` argument.
-## `summarise()` has grouped output by 'client'. You can override using the `.groups` argument.
 ```
 
 <div data-pagedtable="false">
