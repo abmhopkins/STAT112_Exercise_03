@@ -114,7 +114,7 @@ Some of the vegetable varieties show up twice, with the same total weight. If ea
 
   3. I would like to understand how much money I "saved" by gardening, for each vegetable type. Describe how I could use the `garden_harvest` and `garden_spending` datasets, along with data from somewhere like [this](https://products.wholefoodsmarket.com/search?sort=relevance&store=10542) to answer this question. You can answer this in words, referencing various join functions. You don't need R code but could provide some if it's helpful.
   
-  
+  Using the garden harvest dataset as the record of vegetables harvested and their weights, we could join this with the garden spending dataset by vegetable and variety to find the seed price for each variety. The price of the top soil and dirt would be lost in this join process but this could be added later as a constant cost for each vegetable. With the Whole Foods dataset we could perform another join function, this time just by vegetable. Now we would have a dataset with the weight of each vegetable, the seed price and the price of it in a store. We could then group this data by vegetable and create two new variables, the total seed price and the total cost of it at the store (adjusted for weight). With these new variables we could create a third variable for each vegetable, money saved, which is the seed price - store price.
 
   4. Subset the data to tomatoes. Reorder the tomato varieties from smallest to largest first harvest date. Create a barplot of total harvest in pounds for each variety, in the new order.
 
@@ -218,7 +218,7 @@ Trips %>%
 
 ![](03_exercises_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
   
-  As the months get colder, the number of rentals decrease. Though there is an increase in the early part of December before decreasing again in January.
+  As the months get colder, the number of rentals decrease. There is an increase in the early part of December before decreasing again in January.
   
   8. A density plot of the events versus time of day.  You can use `mutate()` with `lubridate`'s  `hour()` and `minute()` functions to extract the hour of the day and minute within the hour from `sdate`. Hint: A minute is 1/60 of an hour, so create a variable where 3:30 is 3.5 and 3:45 is 3.75.
   
@@ -239,7 +239,7 @@ Trips %>%
 
 ![](03_exercises_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
   
-  There are two rental peaks, one around 9:00AM and another around 5:30PM. This could mean that people are using the bikes to commute. In the middle of the day there is a lull, but bike usage is still higher than other parts of the day.
+  There are two rental peaks, one around 9:00AM and another around 5:30PM. This could mean that people are using the bikes to commute. In the middle of the day there is a lull, but bike usage is still higher than other parts of the day, such as the early morning or late evening.
   
   9. A bar graph of the events versus day of the week. Put day on the y-axis.
   
@@ -500,6 +500,10 @@ Of the top 10 days and station combinations, none of these days are Fridays. The
 ## GitHub link
 
   20. Below, provide a link to your GitHub page with this set of Weekly Exercises. Specifically, if the name of the file is 03_exercises.Rmd, provide a link to the 03_exercises.md file, which is the one that will be most readable on GitHub.
+  
+  https://github.com/abmhopkins/STAT112_Exercise_03/blob/main/03_exercises.md
+  
+  (the table outputs in the markdown file are tough to read)
 
 ## Challenge problem! 
 
@@ -507,5 +511,68 @@ This problem uses the data from the Tidy Tuesday competition this week, `kids`. 
 
   21. In this exercise, you are going to try to replicate the graph below, created by Georgios Karamanis. I'm sure you can find the exact code on GitHub somewhere, but **DON'T DO THAT!** You will only be graded for putting an effort into this problem. So, give it a try and see how far you can get without doing too much googling. HINT: use `facet_geo()`. The graphic won't load below since it came from a location on my computer. So, you'll have to reference the original html on the moodle page to see it.
   
+
+```r
+kids %>% 
+  filter(variable == "lib",
+         year == 1997 | year == 2016) %>% 
+  select(state, year, inf_adj_perchild) %>% 
+  pivot_wider(id_cols = state:inf_adj_perchild,
+              names_from = "year",
+              values_from = "inf_adj_perchild") %>% 
+  mutate(increase = ifelse(`2016`>`1997`, TRUE, FALSE)) %>% 
+  
+  ggplot() +
+  geom_point(aes(x = 0, y = `1997`*1000, color = ifelse(increase == TRUE, "white", "black")), size = 1.5) +
+  
+  geom_segment(aes(x = 0,
+                   xend = 1,
+                   y = `1997`*1000,
+                   yend = `2016`*1000,
+                   color = ifelse(increase == TRUE, "white", "black")), 
+                arrow = arrow(length = unit(0.075, "inches")),
+                size = 0.8) +
+  
+  geom_text(aes(x = 0,
+                y = `1997`-200,
+                label = round(`1997`*1000)),
+                hjust = 0.5,
+                size = 3,
+                color = "grey") +
+  
+   geom_text(aes(x = 1.05,
+                y = `2016`-200,
+                label = round(`2016`*1000)),
+                hjust = 0.5,
+                size = 3,
+                color = "grey") +
+  
+  scale_color_identity()+
+  
+  facet_geo(vars(state), label ="code") +
+  
+  theme(plot.background = element_rect(fill = "#6C8299"),
+        panel.grid = element_blank(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        plot.margin = margin(5,20,5,20),
+        panel.spacing.y = unit(0.75, "lines"),
+        panel.spacing.x = unit(1.25 , "lines"),
+        strip.text = element_text(color = "white"),
+        legend.position = "none") +
+  
+    coord_cartesian(clip = "off", expand = FALSE) +
+  
+  labs(title = "Change in public spending on libraries from 1997 to 2016",
+       subtitle = "Dollars spent per child, adjusted for inflation",
+       x = "",
+       y = "",
+       caption = "Source: Urban Institute | Inspired by: Georgios Karamanis | Graphic: Alexander Hopkins")
+```
+
+![](03_exercises_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+
 
 **DID YOU REMEMBER TO UNCOMMENT THE OPTIONS AT THE TOP?**
