@@ -128,7 +128,7 @@ garden_harvest %>%
   arrange(first_harvest_date) %>% 
   ggplot(mapping = aes(x = total_weight_lbs, y = fct_reorder(variety, first_harvest_date, .desc = TRUE))) +
   geom_col() +
-  labs(title = "Tomato harvest weights by variety, ordered by harvest date",
+  labs(title = "Tomato harvest weights by variety, ordered by first harvest date",
        x = "",
        y = "")
 ```
@@ -502,8 +502,7 @@ Of the top 10 days and station combinations, none of these days are Fridays. The
   20. Below, provide a link to your GitHub page with this set of Weekly Exercises. Specifically, if the name of the file is 03_exercises.Rmd, provide a link to the 03_exercises.md file, which is the one that will be most readable on GitHub.
   
   https://github.com/abmhopkins/STAT112_Exercise_03/blob/main/03_exercises.md
-  
-  (the table outputs in the markdown file are tough to read)
+
 
 ## Challenge problem! 
 
