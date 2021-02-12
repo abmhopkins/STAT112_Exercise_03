@@ -338,7 +338,7 @@ Trips_Station %>%
   group_by(name) %>% 
   summarise(num_departures = n()) %>% 
   left_join(Stations, by = "name") %>% 
-  ggplot(mapping = aes(x = lat, y = long, color = num_departures)) + 
+  ggplot(mapping = aes(x = long, y = lat, color = num_departures)) + 
   geom_point() +
   labs(title = "Number of departures from each station",
        x = "",
@@ -357,7 +357,7 @@ Trips_Station %>%
          percent_casual = ifelse(client == "Casual", num_departures/total_departures, 0)) %>% 
   filter(percent_casual != 0) %>% 
 left_join(Stations, by = "name") %>% 
-  ggplot(mapping = aes(x = lat, y = long, color = percent_casual)) + 
+  ggplot(mapping = aes(x = long, y = lat, color = percent_casual)) + 
   geom_point() +
   labs(title = "Number of departures from each station",
        x = "",
@@ -366,7 +366,7 @@ left_join(Stations, by = "name") %>%
   scale_color_viridis_c()
 ```
   
-  The casual users have higher percentages of bicycle usage in the stations that are further out. They have lower percentages in the stations that are clustered together in the upper left of the plot.
+  The casual users have higher percentages of bicycle usage in the stations that are further out. They have lower percentages in the stations that are clustered together in the lower right of the plot.
   
 ### Spatiotemporal patterns
 
