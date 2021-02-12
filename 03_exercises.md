@@ -38,6 +38,8 @@ data("garden_planting")
 kids <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-15/kids.csv')
 ```
 
+(I originally submitted this on Tuesday but realized I had latitude and longitude mixed up on 15 and 16. So resubmitting with those changed.)
+
 ## Setting up on GitHub!
 
 Before starting your assignment, you need to get yourself set up on GitHub and make sure GitHub is connected to R Studio. To do that, you should read the instruction (through the "Cloning a repo" section) and watch the video [here](https://github.com/llendway/github_for_collaboration/blob/master/github_for_collaboration.md). Then, do the following (if you get stuck on a step, don't worry, I will help! You can always get started on the homework and we can figure out the GitHub piece later):
@@ -395,7 +397,7 @@ Trips_Station %>%
   group_by(name) %>% 
   summarise(num_departures = n()) %>% 
   left_join(Stations, by = "name") %>% 
-  ggplot(mapping = aes(x = lat, y = long, color = num_departures)) + 
+  ggplot(mapping = aes(x = long, y = lat, color = num_departures)) + 
   geom_point() +
   labs(title = "Number of departures from each station",
        x = "",
@@ -417,7 +419,7 @@ Trips_Station %>%
          percent_casual = ifelse(client == "Casual", num_departures/total_departures, 0)) %>% 
   filter(percent_casual != 0) %>% 
 left_join(Stations, by = "name") %>% 
-  ggplot(mapping = aes(x = lat, y = long, color = percent_casual)) + 
+  ggplot(mapping = aes(x = long, y = lat, color = percent_casual)) + 
   geom_point() +
   labs(title = "Number of departures from each station",
        x = "",
@@ -428,7 +430,7 @@ left_join(Stations, by = "name") %>%
 
 ![](03_exercises_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
   
-  The casual users have higher percentages of bicycle usage in the stations that are further out. They have lower percentages in the stations that are clustered together in the upper left of the plot.
+  The casual users have higher percentages of bicycle usage in the stations that are further out and a couple of the stations in the main cluster. This could be because they are being used for tourism and most of the sites to see are in the cluster.
   
 ### Spatiotemporal patterns
 
